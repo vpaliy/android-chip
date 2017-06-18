@@ -1,18 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.vpaliy.chipview.SampleActivity">
 
-    <TextView
+    <com.vpaliy.chips_lover.ChipView
+        android:layout_centerInParent="true"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
-</android.support.constraint.ConstraintLayout>
+        app:chipFrontIcon="@drawable/ic_check_circle_black_24dp"
+        app:chip_text="some text "
+        app:chipTextColor="@color/colorAccent"
+        android:layout_height="32dp"
+        android:id="@+id/chipView">
+    </com.vpaliy.chips_lover.ChipView>
+
+    <ImageView
+        android:src="@drawable/ic_close"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_below="@+id/chipView"
+        android:layout_alignRight="@+id/chipView"
+        android:layout_alignEnd="@+id/chipView"
+        android:layout_marginTop="10dp" />
+
+</RelativeLayout>

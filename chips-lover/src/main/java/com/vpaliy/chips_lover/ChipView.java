@@ -4,25 +4,31 @@ package com.vpaliy.chips_lover;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.PaintDrawable;
+import android.os.Build;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DimenRes;
 import android.support.annotation.DrawableRes;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+
 public class ChipView extends RelativeLayout{
 
+    private static final String TAG=ChipView.class.getSimpleName();
     private TextView chipTextView;
     private Chip chip;
-    private ImageView frontIcon;
+    private CircleImageView frontIcon;
     private ImageView endIcon;
 
     public ChipView(Context context) {
@@ -40,6 +46,7 @@ public class ChipView extends RelativeLayout{
     }
 
     private void setAttrs(AttributeSet attrs){
+        chip=new Chip();
         if(attrs!=null){
             TypedArray array=getContext().obtainStyledAttributes(attrs,R.styleable.ChipView);
             chip.text=array.getString(R.styleable.ChipView_chip_text);
@@ -53,16 +60,18 @@ public class ChipView extends RelativeLayout{
             chip.closeable=array.getBoolean(R.styleable.ChipView_chipCloseable,false);
             chip.selectedFrontColor=array.getColor(R.styleable.ChipView_chip_selectedFrontColor,color(R.color.colorSelectedFrontIcon));
             chip.selectable=array.getBoolean(R.styleable.ChipView_chipSelectable,false);
-            chip.frontIconSize=array.getDimensionPixelSize(R.styleable.ChipView_chipFrontIconSize,dimens(R.dimen.chip_front_icon_size));
-            chip.endIconSize=array.getDimensionPixelSize(R.styleable.ChipView_chipEndIconSize,dimens(R.dimen.chip_end_icon_size));
-            chip.selectedBackgroundColor=array.getColor(R.styleable.ChipView_chip_selectedBackgroundColor,
-                    color(R.color.colorSelectedChipBackground));
-            chip.selectedTextColor=array.getColor(R.styleable.ChipView_chip_selectedTextColor,
-                    color(R.color.colorChipTextSelected));
+            chip.frontIconSize=(int)(array.getDimension(R.styleable.ChipView_chipFrontIconSize,dimens(R.dimen.chip_front_icon_size)));
+            chip.endIconSize=(int)array.getDimension(R.styleable.ChipView_chipEndIconSize,dimens(R.dimen.chip_end_icon_size));
+            chip.selectedBackgroundColor=array.getColor(R.styleable.ChipView_chip_selectedBackgroundColor, color(R.color.colorSelectedChipBackground));
+            chip.selectedTextColor=array.getColor(R.styleable.ChipView_chip_selectedTextColor, color(R.color.colorChipTextSelected));
             int icon=array.getResourceId(R.styleable.ChipView_chipFrontIcon,-1);
             if(icon!=-1) chip.frontIcon=drawable(icon);
-            icon=array.getResourceId(R.styleable.ChipView_chipEndIcon,R.drawable.ic_close);
-            chip.endIcon=drawable(icon);
+            icon=array.getResourceId(R.styleable.ChipView_chipEndIcon,-1);
+            if(icon!=-1) {
+                chip.endIcon = drawable(icon);
+            }else if(chip.closeable){
+                chip.endIcon=drawable(R.drawable.ic_close);
+            }
             array.recycle();
         }
     }
@@ -79,46 +88,56 @@ public class ChipView extends RelativeLayout{
         return (int)getResources().getDimension(dimen);
     }
 
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    }
+
     private void setUp(){
         initBackgroundColor();
-        initEndIcon();
-        initFrontIcon();
         initTextView();
+        initFrontIcon();
+        initEndIcon();
     }
 
     private void initTextView() {
-        chipTextView= new TextView(getContext(),null,chip.textStyle);
-
+        chipTextView= new TextView(getContext());
         RelativeLayout.LayoutParams chipTextParams = new RelativeLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
-        if(frontIcon!=null||endIcon!=null){
+                WRAP_CONTENT,
+                WRAP_CONTENT);
+        if(chip.endIcon!=null||chip.frontIcon!=null){
             chipTextParams.addRule(RIGHT_OF,R.id.chip_front_icon);
+            chipTextParams.addRule(CENTER_VERTICAL);
+        }else {
+            chipTextParams.addRule(CENTER_IN_PARENT);
         }
-        chipTextParams.addRule(CENTER_VERTICAL);
+        int left=dimens(R.dimen.chip_text_icon_margin);
+        int right=chip.endIcon!=null?0 :dimens(R.dimen.chip_text_margin);
 
-        int margins = (int) getResources().getDimension(R.dimen.spacing_medium);
-        int bottom=(int)getResources().getDimension(R.dimen.spacing_small);
-        chipTextParams.setMargins(margins, bottom, margins,bottom);
+        chipTextParams.setMargins(left,0,right,0);
         chipTextView.setLayoutParams(chipTextParams);
+        chipTextView.setId(R.id.chip_text);
         chipTextView.setText(chip.text);
+        if(chip.textColor!=-1){
+            chipTextView.setTextColor(chip.textColor);
+        }
+        if(chip.textStyle!=-1){
+            if(Build.VERSION.SDK_INT>=23){
+                chipTextView.setTextAppearance(chip.textStyle);
+            }
+        }
         this.addView(chipTextView);
     }
 
     private void initFrontIcon(){
         if(chip.frontIcon!=null) {
-            frontIcon = new ImageView(getContext());
+            frontIcon = new CircleImageView(getContext());
             LayoutParams params = new LayoutParams(chip.frontIconSize, chip.frontIconSize);
             params.addRule(ALIGN_PARENT_LEFT);
+            params.addRule(CENTER_VERTICAL);
             frontIcon.setLayoutParams(params);
             frontIcon.setId(R.id.chip_front_icon);
-
-            if (chip.frontIcon != null) {
-                Bitmap bitmap = BitmapDrawable.class.cast(chip.frontIcon).getBitmap();
-                bitmap = ChipUtils.getSquareBitmap(bitmap);
-                bitmap = ChipUtils.getScaledBitmap(getContext(), bitmap, chip.frontIconSize);
-                frontIcon.setImageBitmap(ChipUtils.getCircleBitmap(getContext(), bitmap, chip.frontIconSize));
-            }
+            frontIcon.setImageDrawable(chip.frontIcon);
             frontIcon.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -135,12 +154,11 @@ public class ChipView extends RelativeLayout{
             LayoutParams params=new LayoutParams(chip.endIconSize,chip.endIconSize);
             params.addRule(CENTER_VERTICAL);
             params.addRule(RIGHT_OF,R.id.chip_text);
-            params.setMargins(dimens(R.dimen.chip_icon_horizontal_margin),
-                            0,dimens(R.dimen.chip_icon_horizontal_margin), 0);
+            params.setMargins(dimens(R.dimen.chip_close_margin),0,
+                    dimens(R.dimen.chip_close_margin),0);
             endIcon.setLayoutParams(params);
             endIcon.setId(R.id.chip_end_icon);
             endIcon.setImageDrawable(chip.endIcon);
-
             if(chip.endIconColor!=-1){
                 ChipUtils.setIconColor(endIcon,chip.endIconColor);
             }

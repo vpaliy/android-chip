@@ -8,9 +8,9 @@
     <dimen name="spacing_huge">32dp</dimen>
 
     <dimen name="chip_height">32dp</dimen>
-    <dimen name="chip_horizontal_padding">12dp</dimen>
-    <dimen name="chip_icon_horizontal_margin">8dp</dimen>
-    <dimen name="chip_front_icon_size">18dp</dimen>
+    <dimen name="chip_front_icon_size">32dp</dimen>
     <dimen name="chip_end_icon_size">24dp</dimen>
-    <dimen name="chip_icon_padding">3dp</dimen>
+    <dimen name="chip_text_margin">12dp</dimen>
+    <dimen name="chip_text_icon_margin">8dp</dimen>
+    <dimen name="chip_close_margin">4dp</dimen>
 </resources>
