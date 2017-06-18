@@ -6,6 +6,10 @@ class Chip {
     String text;
     Drawable endIcon;
     Drawable frontIcon;
+    int frontIconColor;
+    int endIconColor;
+    int frontIconSize;
+    int endIconSize;
     boolean selectable;
     boolean closeable;
     boolean isDefaultAnimation;   //if a chip is selectable, it will animate on click
@@ -17,5 +21,6 @@ class Chip {
     int selectedTextColor;
     int selectedEndColor;
     int selectedFrontColor;
+
 
 }

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="chip_front_icon" type="id"/>
+    <item name="chip_text" type="id"/>
+    <item name="chip_end_icon" type="id"/>
+
+</resources>
