@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <declare-styleable name="ChipView">
+        <attr name="chip_text" format="string" />
+        <attr name="chipCloseable" format="boolean"/>
+        <attr name="chipSelectable" format="boolean" />
+        <attr name="chip_backgroundColor" format="color" />
+        <attr name="chip_selectedBackgroundColor" format="color" />
+        <attr name="chipTextColor" format="color" />
+        <attr name="chipEndIcon" format="reference"/>
+        <attr name="chipFrontIcon" format="reference"/>
+        <attr name="chip_selectedTextColor" format="color" />
+        <attr name="chipCloseColor" format="color" />
+        <attr name="chip_selectedEndColor" format="color" />
+        <attr name="chip_selectedFrontColor" format="color"/>
+        <attr name="chipTextStyle" format="reference"/>
+        <attr name="chipDefaultAnimation" format="boolean"/>
+    </declare-styleable>
+</resources>
