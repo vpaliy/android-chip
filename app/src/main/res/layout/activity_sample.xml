@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/chips"
         app:chipCloseable="true"
+        app:chipSelectable="true"
         app:chipFrontIcon="@drawable/image"
         app:chip_layout_horizontal_margin="10dp"
         app:chip_layout_vertical_margin="10dp">

@@ -7,7 +7,9 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.PaintDrawable;
 import android.os.Build;
 import android.support.annotation.DimenRes;
+import android.support.annotation.Nullable;
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
@@ -37,6 +39,7 @@ public class ChipView extends RelativeLayout{
     private int selectedTextColor;
     private int selectedEndColor;
     private int selectedFrontColor;
+    private boolean isSelected;
 
     private OnFrontIconEventClick frontIconClickEvent;
     private OnEndIconEventClick endIconEventClick;
@@ -100,6 +103,23 @@ public class ChipView extends RelativeLayout{
         initTextView();
         initEndIcon();
         initFrontIcon();
+        setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(selectable){
+                    isSelected=!isSelected;
+                    initBackgroundColor();
+                    setFrontColor();
+                    setEndColor();
+                    setTextColor();
+                    ViewCompat.animate(v)
+                            .scaleX(isSelected?1.05f:1f)
+                            .scaleY(isSelected?1.05f:1f)
+                            .setDuration(300)
+                            .start();
+                }
+            }
+        });
     }
 
     private void initTextView() {
@@ -175,6 +195,29 @@ public class ChipView extends RelativeLayout{
         }
     }
 
+    private void setTextColor(){
+        if(chipTextView!=null){
+            chipTextView.setTextColor(isSelected?selectedTextColor:textColor);
+        }
+    }
+
+    private void setFrontColor(){
+        if(frontIcon!=null){
+            if(isSelected){
+                DrawableCompat.setTint(frontIconDrawable,selectedFrontColor);
+            }else if(frontIconColor!=-1){
+                DrawableCompat.setTint(frontIconDrawable,frontIconColor);
+            }
+        }
+    }
+
+    private void setEndColor(){
+        if(endIcon!=null){
+            DrawableCompat.setTint(endIconDrawable,isSelected?
+                selectedEndColor:endIconColor);
+        }
+    }
+
     public void setFrontIconClickEvent(OnFrontIconEventClick frontIconClickEvent) {
         this.frontIconClickEvent = frontIconClickEvent;
     }
@@ -184,7 +227,7 @@ public class ChipView extends RelativeLayout{
     }
 
     private void initBackgroundColor() {
-        PaintDrawable bgDrawable = new PaintDrawable(backgroundColor);
+        PaintDrawable bgDrawable = new PaintDrawable(isSelected?selectedBackgroundColor:backgroundColor);
         bgDrawable.setCornerRadius(dimens(R.dimen.chip_height)/2);
         setBackgroundDrawable(bgDrawable);
     }
