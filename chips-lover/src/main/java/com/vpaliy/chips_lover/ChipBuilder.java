@@ -153,6 +153,6 @@ public class ChipBuilder {
     }
 
     public ChipView build(){
-        return new ChipView(context,this);
+        return new ChipView(context,this );
     }
 }

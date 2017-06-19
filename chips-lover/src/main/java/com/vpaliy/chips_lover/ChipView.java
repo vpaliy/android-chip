@@ -38,6 +38,9 @@ public class ChipView extends RelativeLayout{
     private int selectedEndColor;
     private int selectedFrontColor;
 
+    private OnFrontIconEventClick frontIconClickEvent;
+    private OnEndIconEventClick endIconEventClick;
+
     public ChipView(Context context) {
         this(context, null, 0);
     }
@@ -138,7 +141,9 @@ public class ChipView extends RelativeLayout{
             frontIcon.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    if(frontIconClickEvent!=null){
+                        frontIconClickEvent.onClick(v);
+                    }
                 }
             });
             addView(frontIcon);
@@ -161,10 +166,21 @@ public class ChipView extends RelativeLayout{
             endIcon.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if(endIconEventClick!=null){
+                        endIconEventClick.onClick(v);
+                    }
                 }
             });
             addView(endIcon);
         }
+    }
+
+    public void setFrontIconClickEvent(OnFrontIconEventClick frontIconClickEvent) {
+        this.frontIconClickEvent = frontIconClickEvent;
+    }
+
+    public void setEndIconEventClick(OnEndIconEventClick endIconEventClick) {
+        this.endIconEventClick = endIconEventClick;
     }
 
     private void initBackgroundColor() {

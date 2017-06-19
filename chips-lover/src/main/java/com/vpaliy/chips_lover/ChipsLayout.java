@@ -201,7 +201,6 @@ public class ChipsLayout extends ViewGroup{
                     addView(chip);
                 }
             }
-
         }
     }
 }
