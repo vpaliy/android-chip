@@ -14,9 +14,9 @@ public class ChipsLayout extends ViewGroup{
 
     private List<ChipView> chips;
     private int lineHeight;
-    private int textColor;
-    private int chipBackground;
-    private int textStyle;
+    private int chipStyle;
+    private int horizontalSpacing;
+    private int verticalSpacing;
 
     public ChipsLayout(Context context){
         this(context,null,0);
@@ -32,8 +32,7 @@ public class ChipsLayout extends ViewGroup{
     }
 
     private void initAttrs(AttributeSet attrs){
-        chipBackground= ContextCompat.getColor(getContext(), R.color.colorChipBackground);
-        textColor=-1;
+
     }
 
     private static class LayoutParams extends ViewGroup.LayoutParams {
@@ -159,5 +158,11 @@ public class ChipsLayout extends ViewGroup{
             }
         }
         requestLayout();
+    }
+
+    public void setChips(List<ChipView> chipViews){
+        if(chipViews!=null){
+
+        }
     }
 }

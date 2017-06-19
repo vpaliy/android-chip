@@ -10,4 +10,5 @@
     <color name="colorSelectedFrontIcon">#424242</color>
     <color name="colorChipText">#424242</color>
     <color name="colorChipTextSelected">#F5F5F5</color>
+    <color name="colorChipCloseInactive">#757575</color>
 </resources>

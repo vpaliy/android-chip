@@ -6,8 +6,6 @@
         <attr name="chip_text" format="string" />
         <attr name="chipCloseable" format="boolean"/>
         <attr name="chipSelectable" format="boolean" />
-        <attr name="chipFrontIconSize" format="dimension"/>
-        <attr name="chipEndIconSize" format="dimension"/>
         <attr name="chipFrontIconColor" format="color"/>
         <attr name="chipEndIconColor" format="color"/>
         <attr name="chip_backgroundColor" format="color" />
