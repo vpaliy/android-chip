@@ -19,4 +19,27 @@
         <attr name="chipTextStyle" format="reference"/>
         <attr name="chipDefaultAnimation" format="boolean"/>
     </declare-styleable>
+
+
+    <declare-styleable name="ChipsLayout">
+        <attr name="chip_text" />
+        <attr name="chipCloseable"/>
+        <attr name="chipSelectable"/>
+        <attr name="chipFrontIconColor"/>
+        <attr name="chipEndIconColor" />
+        <attr name="chip_backgroundColor"/>
+        <attr name="chip_selectedBackgroundColor" />
+        <attr name="chipTextColor" />
+        <attr name="chipEndIcon" />
+        <attr name="chipFrontIcon"/>
+        <attr name="chip_selectedTextColor" />
+        <attr name="chip_selectedEndColor" />
+        <attr name="chip_selectedFrontColor"/>
+        <attr name="chipTextStyle"/>
+        <attr name="chipDefaultAnimation"/>
+
+        <attr name="chip_layout_horizontal_margin" format="dimension"/>
+        <attr name="chip_layout_vertical_margin" format="dimension"/>
+        <attr name="chips_style" format="reference"/>
+    </declare-styleable>
 </resources>

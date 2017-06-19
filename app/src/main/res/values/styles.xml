@@ -8,4 +8,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="Widget"/>
+
+    <style name="Widget.Chips">
+        <item name="chipCloseable">true</item>
+    </style>
+
 </resources>

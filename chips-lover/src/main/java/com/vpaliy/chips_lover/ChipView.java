@@ -6,10 +6,7 @@ import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.PaintDrawable;
 import android.os.Build;
-import android.support.annotation.ColorRes;
 import android.support.annotation.DimenRes;
-import android.support.annotation.DrawableRes;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.AttributeSet;
 import android.view.View;
@@ -45,62 +42,43 @@ public class ChipView extends RelativeLayout{
         this(context, null, 0);
     }
 
+    public ChipView(Context context, ChipBuilder builder){
+        super(context);
+        init(builder);
+    }
+
     public ChipView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
     public ChipView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
-        setAttrs(attrs);
-        setUp();
-    }
-
-    private void init(){
-        textColor=color(R.color.colorChipText);
-        textStyle=-1;
-        backgroundColor=color(R.color.colorChipBackground);
-        endIconColor=-1;
-        frontIconColor=-1;
-        selectedEndColor=color(R.color.colorSelectedEndIcon);
-        selectedFrontColor=color(R.color.colorSelectedFrontIcon);
-        selectedBackgroundColor=color(R.color.colorSelectedChipBackground);
-        selectedTextColor=color(R.color.colorChipTextSelected);
-    }
-    private void setAttrs(AttributeSet attrs){
         if(attrs!=null){
             TypedArray array=getContext().obtainStyledAttributes(attrs,R.styleable.ChipView);
-            text=array.getString(R.styleable.ChipView_chip_text);
-            backgroundColor=array.getColor(R.styleable.ChipView_chip_backgroundColor,backgroundColor);
-            textColor=array.getColor(R.styleable.ChipView_chipTextColor,textColor);
-            textStyle=array.getResourceId(R.styleable.ChipView_chipTextStyle,textStyle);
-            endIconColor=array.getColor(R.styleable.ChipView_chipEndIconColor,endIconColor);
-            frontIconColor=array.getColor(R.styleable.ChipView_chipFrontIconColor,frontIconColor);
-            isDefaultAnimation=array.getBoolean(R.styleable.ChipView_chipDefaultAnimation,false);
-            selectedEndColor=array.getColor(R.styleable.ChipView_chip_selectedEndColor,selectedEndColor);
-            closeable=array.getBoolean(R.styleable.ChipView_chipCloseable,false);
-            selectedFrontColor=array.getColor(R.styleable.ChipView_chip_selectedFrontColor,selectedFrontColor);
-            selectable=array.getBoolean(R.styleable.ChipView_chipSelectable,false);
-            selectedBackgroundColor=array.getColor(R.styleable.ChipView_chip_selectedBackgroundColor,selectedBackgroundColor);
-            selectedTextColor=array.getColor(R.styleable.ChipView_chip_selectedTextColor, selectedTextColor);
-            int icon=array.getResourceId(R.styleable.ChipView_chipFrontIcon,-1);
-            if(icon!=-1) frontIconDrawable=drawable(icon);
-            icon=array.getResourceId(R.styleable.ChipView_chipEndIcon,-1);
-            if(icon!=-1) {
-                endIconDrawable = drawable(icon);
-            }else if(closeable){
-                endIconDrawable=drawable(R.drawable.ic_close);
-            }
+            init(ChipBuilder.create(getContext(),array));
             array.recycle();
+        }else {
+            init(ChipBuilder.create(getContext()));
         }
     }
 
-    private int color(@ColorRes int color){
-        return ContextCompat.getColor(getContext(),color);
-    }
-
-    private Drawable drawable(@DrawableRes int drawable){
-        return ContextCompat.getDrawable(getContext(), drawable);
+    private void init(ChipBuilder builder){
+        text=builder.text;
+        endIconDrawable=builder.endIconDrawable;
+        frontIconDrawable=builder.frontIconDrawable;
+        frontIconColor=builder.frontIconColor;
+        endIconColor=builder.endIconColor;
+        selectable=builder.selectable;
+        closeable=builder.closeable;
+        isDefaultAnimation=builder.isDefaultAnimation;
+        textStyle=builder.textStyle;
+        backgroundColor=builder.backgroundColor;
+        textColor=builder.textColor;
+        selectedBackgroundColor=builder.selectedBackgroundColor;
+        selectedTextColor=builder.selectedTextColor;
+        selectedEndColor=builder.selectedEndColor;
+        selectedFrontColor=builder.selectedFrontColor;
+        setUp();
     }
 
     private int dimens(@DimenRes int dimen){
@@ -110,6 +88,8 @@ public class ChipView extends RelativeLayout{
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        getLayoutParams().height=dimens(R.dimen.chip_height);
+        getLayoutParams().width=WRAP_CONTENT;
     }
 
     private void setUp(){

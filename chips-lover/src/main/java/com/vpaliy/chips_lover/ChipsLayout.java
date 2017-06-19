@@ -1,12 +1,18 @@
 package com.vpaliy.chips_lover;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.support.v4.content.ContextCompat;
+import android.support.annotation.StyleRes;
 import android.util.AttributeSet;
+import android.util.Xml;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,9 +20,9 @@ public class ChipsLayout extends ViewGroup{
 
     private List<ChipView> chips;
     private int lineHeight;
-    private int chipStyle;
     private int horizontalSpacing;
     private int verticalSpacing;
+    private ChipBuilder chipBuilder;
 
     public ChipsLayout(Context context){
         this(context,null,0);
@@ -32,7 +38,15 @@ public class ChipsLayout extends ViewGroup{
     }
 
     private void initAttrs(AttributeSet attrs){
-
+        if(attrs!=null){
+            TypedArray array=getContext().obtainStyledAttributes(attrs,R.styleable.ChipsLayout);
+            chipBuilder=ChipBuilder.create(getContext(),array);
+            horizontalSpacing=(int)(array.getDimension(R.styleable.ChipsLayout_chip_layout_horizontal_margin,1));
+            verticalSpacing=(int)(array.getDimension(R.styleable.ChipsLayout_chip_layout_vertical_margin,1));
+            array.recycle();
+            return;
+        }
+        chipBuilder=ChipBuilder.create(getContext());
     }
 
     private static class LayoutParams extends ViewGroup.LayoutParams {
@@ -49,12 +63,12 @@ public class ChipsLayout extends ViewGroup{
 
     @Override
     protected ViewGroup.LayoutParams generateDefaultLayoutParams() {
-        return new LayoutParams(1, 1); // default of 1px spacing
+        return new LayoutParams(horizontalSpacing, verticalSpacing);
     }
 
     @Override
     protected ViewGroup.LayoutParams generateLayoutParams(ViewGroup.LayoutParams p) {
-        return new LayoutParams(1, 1);
+        return new LayoutParams(horizontalSpacing, verticalSpacing);
     }
 
     @Override
@@ -83,6 +97,26 @@ public class ChipsLayout extends ViewGroup{
                 xPos += childWidth + lp.horizontalSpacing;
             }
         }
+    }
+
+    public void setHorizontalSpacing(int horizontalSpacing) {
+        this.horizontalSpacing = horizontalSpacing;
+    }
+
+    public void setVerticalSpacing(int verticalSpacing) {
+        this.verticalSpacing = verticalSpacing;
+    }
+
+    public int getVerticalSpacing() {
+        return verticalSpacing;
+    }
+
+    public int getHorizontalSpacing() {
+        return horizontalSpacing;
+    }
+
+    public List<ChipView> getChips() {
+        return chips;
     }
 
     @Override
@@ -137,10 +171,9 @@ public class ChipsLayout extends ViewGroup{
         if(tags.size()>chips.size()){
             int diff=tags.size()-chips.size();
             for(int index=0;index<diff;index++) {
-                ChipView chip = new ChipView(getContext());
-                chip.setId(index+1);
+                ChipView chip = chipBuilder.build();
                 chips.add(chip);
-                addView(chip,new LayoutParams(10,10));
+                addView(chip);
             }
         }
         int index=0;
@@ -162,6 +195,12 @@ public class ChipsLayout extends ViewGroup{
 
     public void setChips(List<ChipView> chipViews){
         if(chipViews!=null){
+            for(ChipView chip:chipViews){
+                if(!chips.contains(chip)){
+                    chips.add(chip);
+                    addView(chip);
+                }
+            }
 
         }
     }
