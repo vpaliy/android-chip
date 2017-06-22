@@ -7,7 +7,6 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.PaintDrawable;
 import android.os.Build;
 import android.support.annotation.DimenRes;
-import android.support.annotation.Nullable;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
@@ -41,6 +40,7 @@ public class ChipView extends RelativeLayout{
     private int selectedFrontColor;
     private boolean isSelected;
 
+    private OnChipChangeListener chipChangeListener;
     private OnFrontIconEventClick frontIconClickEvent;
     private OnEndIconEventClick endIconEventClick;
 
@@ -149,8 +149,15 @@ public class ChipView extends RelativeLayout{
         this.addView(chipTextView);
     }
 
+    private Drawable makeCopyIfPossible(Drawable drawable){
+        if(drawable.getConstantState()!=null){
+            return drawable.getConstantState().newDrawable().mutate();
+        }
+        return drawable;
+    }
     private void initFrontIcon(){
         if(frontIconDrawable!=null) {
+            frontIconDrawable=makeCopyIfPossible(frontIconDrawable);
             frontIcon = new CircleImageView(getContext());
             LayoutParams params = new LayoutParams(dimens(R.dimen.chip_front_icon_size), dimens(R.dimen.chip_front_icon_size));
             params.addRule(ALIGN_PARENT_LEFT);
@@ -170,8 +177,13 @@ public class ChipView extends RelativeLayout{
         }
     }
 
+    public void setChipChangeListener(OnChipChangeListener chipChangeListener) {
+        this.chipChangeListener = chipChangeListener;
+    }
+
     private void initEndIcon(){
-        if(closeable){
+        if(closeable||endIconDrawable!=null){
+            endIconDrawable=makeCopyIfPossible(endIconDrawable);
             endIcon=new ImageView(getContext());
             LayoutParams params=new LayoutParams(dimens(R.dimen.chip_end_icon_size), dimens(R.dimen.chip_end_icon_size));
             params.addRule(RIGHT_OF, R.id.chip_text);
@@ -188,6 +200,10 @@ public class ChipView extends RelativeLayout{
                 public void onClick(View v) {
                     if(endIconEventClick!=null){
                         endIconEventClick.onClick(v);
+                    }
+                    //
+                    if(closeable){
+                        chipChangeListener.onRemove(ChipView.this);
                     }
                 }
             });
@@ -235,6 +251,11 @@ public class ChipView extends RelativeLayout{
     public void setChipText(String chipText) {
         this.text=chipText;
         chipTextView.setText(chipText);
+    }
+
+    interface OnChipChangeListener{
+        void onScaleChanged(ChipView chipView);
+        void onRemove(ChipView chipView);
     }
 
     public String getChipText() {

@@ -17,4 +17,6 @@
         app:chip_layout_horizontal_margin="10dp"
         app:chip_layout_vertical_margin="10dp">
     </com.vpaliy.chips_lover.ChipsLayout>
+
+
 </RelativeLayout>
