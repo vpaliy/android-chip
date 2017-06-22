@@ -30,7 +30,7 @@ public class ChipView extends RelativeLayout{
     private int endIconColor;
     private boolean selectable;
     private boolean closeable;
-    private boolean isDefaultAnimation;
+    private boolean isPressAnimation;
     private int textStyle;
     private int backgroundColor;
     private int textColor;
@@ -76,7 +76,7 @@ public class ChipView extends RelativeLayout{
         endIconColor=builder.endIconColor;
         selectable=builder.selectable;
         closeable=builder.closeable;
-        isDefaultAnimation=builder.isDefaultAnimation;
+        isPressAnimation =builder.isDefaultAnimation;
         textStyle=builder.textStyle;
         backgroundColor=builder.backgroundColor;
         textColor=builder.textColor;
@@ -109,14 +109,16 @@ public class ChipView extends RelativeLayout{
                 if(selectable){
                     isSelected=!isSelected;
                     initBackgroundColor();
-                    setFrontColor();
-                    setEndColor();
+                    setFrontIcon();
+                    setEndIcon();
                     setTextColor();
-                    ViewCompat.animate(v)
-                            .scaleX(isSelected?1.05f:1f)
-                            .scaleY(isSelected?1.05f:1f)
-                            .setDuration(300)
-                            .start();
+                    if(isPressAnimation) {
+                        ViewCompat.animate(v)
+                                .scaleX(isSelected ? 1.05f : 1f)
+                                .scaleY(isSelected ? 1.05f : 1f)
+                                .setDuration(getResources().getInteger(R.integer.default_anim_duration))
+                                .start();
+                    }
                 }
             }
         });
@@ -164,7 +166,7 @@ public class ChipView extends RelativeLayout{
             params.addRule(CENTER_VERTICAL);
             frontIcon.setLayoutParams(params);
             frontIcon.setId(R.id.chip_front_icon);
-            frontIcon.setImageDrawable(frontIconDrawable);
+            setFrontIcon();
             frontIcon.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -184,24 +186,21 @@ public class ChipView extends RelativeLayout{
     private void initEndIcon(){
         if(closeable||endIconDrawable!=null){
             endIconDrawable=makeCopyIfPossible(endIconDrawable);
-            endIcon=new ImageView(getContext());
+            endIcon=new CircleImageView(getContext());
             LayoutParams params=new LayoutParams(dimens(R.dimen.chip_end_icon_size), dimens(R.dimen.chip_end_icon_size));
             params.addRule(RIGHT_OF, R.id.chip_text);
             params.addRule(CENTER_VERTICAL);
             params.setMargins(dimens(R.dimen.chip_close_margin),0, dimens(R.dimen.chip_close_margin),0);
             endIcon.setLayoutParams(params);
             endIcon.setId(R.id.chip_end_icon);
-            endIcon.setImageDrawable(endIconDrawable);
-            if(endIconColor!=-1){
-                DrawableCompat.setTint(endIconDrawable,endIconColor);
-            }
+            setEndIcon();
             endIcon.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if(endIconEventClick!=null){
                         endIconEventClick.onClick(v);
                     }
-                    //
+
                     if(closeable){
                         chipChangeListener.onRemove(ChipView.this);
                     }
@@ -217,20 +216,27 @@ public class ChipView extends RelativeLayout{
         }
     }
 
-    private void setFrontColor(){
+    private void setFrontIcon(){
         if(frontIcon!=null){
             if(isSelected){
-                DrawableCompat.setTint(frontIconDrawable,selectedFrontColor);
+                if(selectedFrontColor!=-1) {
+                    DrawableCompat.setTint(frontIconDrawable, selectedFrontColor);
+                }
             }else if(frontIconColor!=-1){
                 DrawableCompat.setTint(frontIconDrawable,frontIconColor);
             }
+            frontIcon.setImageDrawable(frontIconDrawable);
         }
     }
 
-    private void setEndColor(){
+    private void setEndIcon(){
         if(endIcon!=null){
-            DrawableCompat.setTint(endIconDrawable,isSelected?
-                selectedEndColor:endIconColor);
+            if(isSelected) {
+                DrawableCompat.setTint(endIconDrawable, selectedEndColor);
+            }else if(endIconColor!=-1){
+                DrawableCompat.setTint(endIconDrawable,endIconColor);
+            }
+            endIcon.setImageDrawable(endIconDrawable);
         }
     }
 

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
-import android.util.AttributeSet;
 
 public class ChipBuilder {
 
@@ -42,11 +41,14 @@ public class ChipBuilder {
             selectedBackgroundColor=array.getColor(R.styleable.ChipView_chip_selectedBackgroundColor,selectedBackgroundColor);
             selectedTextColor=array.getColor(R.styleable.ChipView_chip_selectedTextColor, selectedTextColor);
             int icon=array.getResourceId(R.styleable.ChipView_chipFrontIcon,-1);
-            if(icon!=-1) frontIconDrawable=ContextCompat.getDrawable(context,icon);
+            if(icon!=-1) {
+                frontIconDrawable = ContextCompat.getDrawable(context, icon);
+            }
             icon=array.getResourceId(R.styleable.ChipView_chipEndIcon,-1);
             if(icon!=-1) {
                 endIconDrawable = ContextCompat.getDrawable(context,icon);
             }else if(closeable){
+                endIconColor=ContextCompat.getColor(context,R.color.colorChipCloseInactive);
                 endIconDrawable=ContextCompat.getDrawable(context,R.drawable.ic_close);
             }
         }

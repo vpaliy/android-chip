@@ -6,9 +6,10 @@
 
     <color name="colorChipBackground">#e0e0e0</color>
     <color name="colorSelectedChipBackground">#424242</color>
-    <color name="colorSelectedEndIcon">#424242</color>
-    <color name="colorSelectedFrontIcon">#424242</color>
+    <color name="colorSelectedEndIcon">#F5F5F5</color>
+    <color name="colorSelectedFrontIcon">#F5F5F5</color>
     <color name="colorChipText">#424242</color>
     <color name="colorChipTextSelected">#F5F5F5</color>
     <color name="colorChipCloseInactive">#757575</color>
+
 </resources>

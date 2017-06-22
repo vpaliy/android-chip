@@ -3,7 +3,8 @@ package com.vpaliy.chips_lover;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
-import android.support.v4.content.ContextCompat;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
 import android.transition.TransitionManager;
 import android.util.AttributeSet;
 import android.view.View;
@@ -20,7 +21,7 @@ public class ChipsLayout extends ViewGroup
     private int verticalSpacing;
     private ChipBuilder chipBuilder;
     private boolean deleteAnimationEnabled;
-    private int deleteAnimDuration;
+    private int removeAnimationRes;
 
     public ChipsLayout(Context context){
         this(context,null,0);
@@ -42,8 +43,7 @@ public class ChipsLayout extends ViewGroup
             horizontalSpacing=(int)(array.getDimension(R.styleable.ChipsLayout_chip_layout_horizontal_margin,1));
             verticalSpacing=(int)(array.getDimension(R.styleable.ChipsLayout_chip_layout_vertical_margin,1));
             deleteAnimationEnabled=array.getBoolean(R.styleable.ChipsLayout_remove_anim_enabled,true);
-            deleteAnimDuration=array.getInteger(R.styleable.ChipsLayout_remove_anim_duration,
-                    getResources().getInteger(R.integer.delete_anim_duration));
+            removeAnimationRes=array.getInteger(R.styleable.ChipsLayout_remove_anim,-1);
             array.recycle();
             return;
         }
@@ -109,7 +109,12 @@ public class ChipsLayout extends ViewGroup
     public void onRemove(ChipView chipView) {
         if(chips.contains(chipView)) {
             if (Build.VERSION.SDK_INT >= 19 && deleteAnimationEnabled) {
-                TransitionManager.beginDelayedTransition(this);
+                if(removeAnimationRes!=-1) {
+                    Transition transition=TransitionInflater.from(getContext()).inflateTransition(removeAnimationRes);
+                    TransitionManager.beginDelayedTransition(this,transition);
+                }else {
+                    TransitionManager.beginDelayedTransition(this);
+                }
             }
             removeView(chipView);
         }

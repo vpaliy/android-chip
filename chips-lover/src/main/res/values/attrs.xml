@@ -39,7 +39,7 @@
         <attr name="chipDefaultAnimation"/>
 
         <attr name="remove_anim_enabled" format="boolean"/>
-        <attr name="remove_anim_duration" format="integer"/>
+        <attr name="remove_anim" format="reference"/>
         <attr name="chip_layout_horizontal_margin" format="dimension"/>
         <attr name="chip_layout_vertical_margin" format="dimension"/>
         <attr name="chips_style" format="reference"/>
