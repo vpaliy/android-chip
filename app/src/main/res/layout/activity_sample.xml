@@ -10,13 +10,17 @@
     <com.vpaliy.chips_lover.ChipsLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="8dp"
         android:id="@+id/chips"
         app:chipCloseable="true"
         app:chipSelectable="true"
+        app:chip_backgroundColor="#bbdefb"
+        app:chipTextStyle="@style/Widget.HashTag"
+        app:chipTextColor="@color/blue_grey_700"
+        app:chipDefaultAnimation="true"
         app:chipFrontIcon="@drawable/image"
         app:chip_layout_horizontal_margin="10dp"
         app:chip_layout_vertical_margin="10dp">
     </com.vpaliy.chips_lover.ChipsLayout>
-
 
 </RelativeLayout>
