@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="settings_option">
+        <item>Background</item>
+        <item>SelectedBackground</item>
+        <item>Text</item>
+        <item>SelectedText</item>
+        <item>FrontIconColor</item>
+        <item>RearIconColor</item>
+        <item>SelectedRearIconColor</item>
+        <item>SelectedFrontIconColor</item>
+    </array>
+</resources>

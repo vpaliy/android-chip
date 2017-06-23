@@ -6,11 +6,12 @@ import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.PaintDrawable;
 import android.os.Build;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.support.annotation.DimenRes;
+import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewCompat;
+import android.support.v4.view.ViewPropertyAnimatorListenerAdapter;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
@@ -45,6 +46,8 @@ public class ChipView extends RelativeLayout{
     private OnChipChangeListener chipChangeListener;
     private OnFrontIconEventClick frontIconClickEvent;
     private OnEndIconEventClick endIconEventClick;
+    private OnClickListener selfClickListener;
+    private OnClickListener externalClickListener;
 
     public ChipView(Context context) {
         this(context, null, 0);
@@ -105,25 +108,42 @@ public class ChipView extends RelativeLayout{
         initTextView();
         initEndIcon();
         initFrontIcon();
-        setOnClickListener(new OnClickListener() {
+        selfClickListener=new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(selectable){
-                    isSelected=!isSelected;
-                    initBackgroundColor();
-                    setFrontIcon();
-                    setEndIcon();
-                    setTextColor();
-                    if(isPressAnimation) {
-                        ViewCompat.animate(v)
-                                .scaleX(isSelected ? 1.05f : 1f)
-                                .scaleY(isSelected ? 1.05f : 1f)
-                                .setDuration(getResources().getInteger(R.integer.default_anim_duration))
-                                .start();
-                    }
-                }
+                triggerSelection();
             }
-        });
+        };
+        setOnClickListener(selfClickListener);
+    }
+
+    private void triggerSelection(){
+        if(selectable){
+            isSelected=!isSelected;
+            initBackgroundColor();
+            setFrontIcon();
+            setEndIcon();
+            setTextColor();
+            if(isPressAnimation) {
+                ViewCompat.animate(this)
+                        .scaleX(isSelected ? 1.05f : 1f)
+                        .scaleY(isSelected ? 1.05f : 1f)
+                        .setDuration(getResources().getInteger(R.integer.default_anim_duration))
+                        .setListener(new ViewPropertyAnimatorListenerAdapter(){
+                            @Override
+                            public void onAnimationEnd(View view) {
+                                super.onAnimationEnd(view);
+                                if(chipChangeListener!=null){
+                                    chipChangeListener.onScaleChanged(ChipView.this);
+                                }
+                            }
+                        })
+                        .start();
+            }
+        }
+        if(externalClickListener!=null){
+            externalClickListener.onClick(this);
+        }
     }
 
     private void initTextView() {
@@ -151,6 +171,13 @@ public class ChipView extends RelativeLayout{
             }
         }
         this.addView(chipTextView);
+    }
+
+    public void setSelectedBackgroundColor(int selectedBackgroundColor) {
+        this.selectedBackgroundColor = selectedBackgroundColor;
+        if(isSelected){
+            initBackgroundColor();
+        }
     }
 
     private Drawable makeCopyIfPossible(Drawable drawable){
@@ -212,6 +239,19 @@ public class ChipView extends RelativeLayout{
         }
     }
 
+    @Override
+    public void setOnClickListener(@Nullable OnClickListener listener) {
+        if(listener==selfClickListener) {
+            super.setOnClickListener(listener);
+        }else{
+            this.externalClickListener=listener;
+        }
+    }
+
+    public void select(){
+        triggerSelection();
+    }
+
     private void setTextColor(){
         if(chipTextView!=null){
             chipTextView.setTextColor(isSelected?selectedTextColor:textColor);
@@ -254,6 +294,99 @@ public class ChipView extends RelativeLayout{
         PaintDrawable bgDrawable = new PaintDrawable(isSelected?selectedBackgroundColor:backgroundColor);
         bgDrawable.setCornerRadius(dimens(R.dimen.chip_height)/2);
         setBackgroundDrawable(bgDrawable);
+    }
+
+    @Override
+    public void setBackgroundColor(int backgroundColor) {
+        this.backgroundColor = backgroundColor;
+        initBackgroundColor();
+    }
+
+    public void setSelectedTextColor(int selectedTextColor) {
+        this.selectedTextColor = selectedTextColor;
+        if(isSelected){
+            setTextColor();
+        }
+    }
+
+    public void setSelectedEndColor(int selectedEndColor) {
+        this.selectedEndColor = selectedEndColor;
+        if(isSelected){
+            setEndIconColor(selectedEndColor);
+        }
+    }
+
+    public void setText(String text) {
+        this.text = text;
+        chipTextView.setText(text);
+    }
+
+    public void setCloseable(boolean closeable) {
+        this.closeable = closeable;
+        if(closeable){
+            endIconColor=ContextCompat.getColor(getContext(),R.color.colorChipCloseInactive);
+            endIconDrawable=ContextCompat.getDrawable(getContext(),R.drawable.ic_close);
+            setEndIconColor(endIconColor);
+        }
+    }
+
+    public void setEndIconDrawable(Drawable endIconDrawable) {
+        this.endIconDrawable = endIconDrawable;
+        if(endIconDrawable!=null){
+            if(endIcon!=null){
+                endIcon.setImageDrawable(endIconDrawable);
+            }else{
+                initEndIcon();
+            }
+        }
+    }
+
+    public void setFrontIconColor(int frontIconColor) {
+        this.frontIconColor = frontIconColor;
+        setFrontIcon();
+    }
+
+    public void setFrontIconDrawable(Drawable frontIconDrawable) {
+        this.frontIconDrawable = frontIconDrawable;
+        if(frontIconDrawable!=null){
+            if(frontIcon!=null){
+                frontIcon.setImageDrawable(frontIconDrawable);
+            }else{
+                initFrontIcon();
+            }
+        }
+    }
+
+    public void setPressAnimation(boolean pressAnimation) {
+        isPressAnimation = pressAnimation;
+    }
+
+    public void setSelectable(boolean selectable) {
+        this.selectable = selectable;
+    }
+
+    public void setEndIconColor(int endIconColor) {
+        this.endIconColor = endIconColor;
+        setEndIcon();
+    }
+
+    public void setSelectedFrontColor(int selectedFrontColor) {
+        this.selectedFrontColor = selectedFrontColor;
+        setFrontIcon();
+    }
+
+    public void setTextStyle(int textStyle) {
+        this.textStyle = textStyle;
+        if(chipTextView!=null){
+            if(Build.VERSION.SDK_INT>=23) {
+                chipTextView.setTextAppearance(textStyle);
+            }
+        }
+    }
+
+    public void setTextColor(int textColor) {
+        this.textColor = textColor;
+        setTextColor();
     }
 
     public void setChipText(String chipText) {

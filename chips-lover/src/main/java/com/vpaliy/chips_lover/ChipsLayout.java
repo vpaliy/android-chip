@@ -3,6 +3,8 @@ package com.vpaliy.chips_lover;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
+import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
 import android.transition.TransitionManager;
@@ -10,6 +12,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ChipsLayout extends ViewGroup
@@ -22,7 +25,6 @@ public class ChipsLayout extends ViewGroup
     private ChipBuilder chipBuilder;
     private boolean deleteAnimationEnabled;
     private int removeAnimationRes;
-
     public ChipsLayout(Context context){
         this(context,null,0);
     }
@@ -44,6 +46,11 @@ public class ChipsLayout extends ViewGroup
             verticalSpacing=(int)(array.getDimension(R.styleable.ChipsLayout_chip_layout_vertical_margin,1));
             deleteAnimationEnabled=array.getBoolean(R.styleable.ChipsLayout_remove_anim_enabled,true);
             removeAnimationRes=array.getInteger(R.styleable.ChipsLayout_remove_anim,-1);
+            int arrayRes=array.getResourceId(R.styleable.ChipsLayout_chips_array,-1);
+            if(arrayRes!=-1){
+                String[] textArray=getResources().getStringArray(arrayRes);
+                setTags(Arrays.asList(textArray));
+            }
             array.recycle();
             return;
         }
@@ -215,6 +222,26 @@ public class ChipsLayout extends ViewGroup
         requestLayout();
     }
 
+    public ChipView assignListenerByName(String chipTitle, OnClickListener listener){
+        if(chips!=null){
+            for(ChipView chip:chips){
+                if(TextUtils.equals(chip.getChipText(),chipTitle)){
+                    chip.setOnClickListener(listener);
+                    return chip;
+                }
+            }
+        }
+        return null;
+    }
+
+    public void setClickListenerToAll(OnClickListener listener){
+        if(chips!=null){
+            for(ChipView chip:chips){
+                chip.setOnClickListener(listener);
+            }
+        }
+    }
+
     public void setChips(List<ChipView> chipViews){
         if(chipViews!=null){
             for(ChipView chip:chipViews){
@@ -225,4 +252,5 @@ public class ChipsLayout extends ViewGroup
             }
         }
     }
+
 }

@@ -1,0 +1,59 @@
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.vpaliy.chips_lover.ChipsLayout
+        android:id="@+id/chips_config"
+        app:chip_backgroundColor="@color/blue_grey_400"
+        android:layout_margin="16dp"
+        app:layout_constraintWidth_default="wrap"
+        app:chipTextStyle="@style/Widget.HashTag"
+        app:chips_array="@array/settings_option"
+        app:chipSelectable="true"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:chip_layout_vertical_margin="@dimen/vertical_margin"
+        app:chip_layout_horizontal_margin="@dimen/horizontal_margin"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp" />
+
+    <com.flask.colorpicker.ColorPickerView
+        android:id="@+id/color_picker_view"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        app:alphaSlider="true"
+        app:density="12"
+        app:lightnessSlider="true"
+        app:wheelType="FLOWER"
+        app:lightnessSliderView="@+id/v_lightness_slider"
+        app:alphaSliderView="@+id/v_alpha_slider"
+        android:layout_marginTop="9dp"
+        app:layout_constraintTop_toBottomOf="@+id/chips_config"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <com.flask.colorpicker.slider.LightnessSlider
+        android:id="@+id/lightness_bar"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        app:layout_constraintTop_toBottomOf="@+id/color_picker_view"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="1dp"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <com.flask.colorpicker.slider.AlphaSlider
+        android:id="@+id/alpha_bar"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        app:layout_constraintTop_toBottomOf="@+id/lightness_bar" />
+</android.support.constraint.ConstraintLayout>

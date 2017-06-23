@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-
     <declare-styleable name="ChipView">
         <attr name="chip_text" format="string" />
         <attr name="chipCloseable" format="boolean"/>
@@ -39,6 +38,7 @@
         <attr name="chipDefaultAnimation"/>
 
         <attr name="remove_anim_enabled" format="boolean"/>
+        <attr name="chips_array" format="reference"/>
         <attr name="remove_anim" format="reference"/>
         <attr name="chip_layout_horizontal_margin" format="dimension"/>
         <attr name="chip_layout_vertical_margin" format="dimension"/>
