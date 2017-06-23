@@ -73,7 +73,7 @@ public class ChipView extends RelativeLayout{
         }
     }
 
-    private void init(ChipBuilder builder){
+    void init(ChipBuilder builder){
         text=builder.text;
         endIconDrawable=builder.endIconDrawable;
         frontIconDrawable=builder.frontIconDrawable;
@@ -393,6 +393,39 @@ public class ChipView extends RelativeLayout{
         this.text=chipText;
         chipTextView.setText(chipText);
     }
+
+    public int getBackgroundColor() {
+        return backgroundColor;
+    }
+
+    public int getTextColor() {
+        return textColor;
+    }
+
+    public int getSelectedEndColor() {
+        return selectedEndColor;
+    }
+
+    public int getEndIconColor() {
+        return endIconColor;
+    }
+
+    public int getFrontIconColor() {
+        return frontIconColor;
+    }
+
+    public int getSelectedBackgroundColor() {
+        return selectedBackgroundColor;
+    }
+
+    public int getSelectedFrontColor() {
+        return selectedFrontColor;
+    }
+
+    public int getSelectedTextColor() {
+        return selectedTextColor;
+    }
+
 
     interface OnChipChangeListener{
         void onScaleChanged(ChipView chipView);

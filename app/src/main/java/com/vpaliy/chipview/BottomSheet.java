@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.flask.colorpicker.ColorPickerView;
 import com.flask.colorpicker.OnColorChangedListener;
-import com.flask.colorpicker.slider.AlphaSlider;
 import com.flask.colorpicker.slider.LightnessSlider;
 import com.vpaliy.chips_lover.ChipBuilder;
 import com.vpaliy.chips_lover.ChipView;
@@ -18,6 +17,7 @@ import com.vpaliy.chips_lover.ChipsLayout;
 import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class BottomSheet extends BottomSheetDialogFragment {
 
@@ -30,11 +30,15 @@ public class BottomSheet extends BottomSheetDialogFragment {
     @BindView(R.id.color_picker_view)
     protected ColorPickerView pickerView;
 
-    @BindView(R.id.alpha_bar)
-    protected AlphaSlider alphaSlider;
-
     private ChipBuilder builder;
     private int selection=-1;
+
+    private OnUpdateChipsListener updateChipsListener;
+
+    public BottomSheet setUpdateListener(OnUpdateChipsListener updateListener){
+        this.updateChipsListener=updateListener;
+        return this;
+    }
 
     public static BottomSheet newInstance(){
         return new BottomSheet();
@@ -45,6 +49,7 @@ public class BottomSheet extends BottomSheetDialogFragment {
     public View onCreateView(LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        setRetainInstance(true);
         View root=inflater.inflate(R.layout.fragment_bottom_sheet,container,false);
         ButterKnife.bind(this,root);
         return root;
@@ -54,7 +59,6 @@ public class BottomSheet extends BottomSheetDialogFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if(view!=null){
-            alphaSlider.setColorPicker(pickerView);
             lightnessSlider.setColorPicker(pickerView);
             final List<ChipView> chips=chipsLayout.getChips();
             builder=ChipBuilder.create(getContext());
@@ -83,20 +87,48 @@ public class BottomSheet extends BottomSheetDialogFragment {
                         case 5:
                             builder.setEndIconColor(color);
                             break;
+                        case 6:
+                            builder.setSelectedEndColor(color);
+                            break;
+                        case 7:
+                            builder.setSelectedFrontColor(color);
+                            break;
                     }
                 }
             });
             selection=0;
             chips.get(selection).select();
+            final int color= ContextCompat.getColor(getContext(),R.color.colorSelectedChipBackground);
             chipsLayout.setClickListenerToAll(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     selection=chips.indexOf(view);
-                    alphaSlider.setColor(Color.BLACK);
+                    ChipView chipView=chips.get(selection);
+                    if(chipView.getSelectedBackgroundColor()!=color) {
+                        pickerView.setColor(chipView.getSelectedBackgroundColor(), false);
+                    }else{
+                        pickerView.setColor(Color.WHITE,false);
+                    }
                     lightnessSlider.setColor(Color.WHITE);
+
                 }
             });
         }
+    }
+
+    @OnClick(R.id.submit_chip)
+    public void submit(){
+        updateChipsListener.onUpdate(builder);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        updateChipsListener.onUpdate(builder);
+    }
+
+    public interface OnUpdateChipsListener{
+        void onUpdate(ChipBuilder builder);
     }
 
 }

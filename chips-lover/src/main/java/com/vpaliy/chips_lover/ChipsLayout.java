@@ -84,6 +84,23 @@ public class ChipsLayout extends ViewGroup
         return p instanceof LayoutParams;
     }
 
+    public void updateColorWith(ChipBuilder chipBuilder) {
+        this.chipBuilder = chipBuilder;
+        if(chips!=null){
+            for(ChipView chipView:chips){
+                chipView.setSelectedTextColor(chipBuilder.selectedTextColor);
+                chipView.setSelectedFrontColor(chipBuilder.selectedFrontColor);
+                chipView.setSelectedEndColor(chipBuilder.selectedEndColor);
+                chipView.setSelectedBackgroundColor(chipBuilder.selectedBackgroundColor);
+                chipView.setFrontIconColor(chipBuilder.frontIconColor);
+                chipView.setEndIconColor(chipBuilder.endIconColor);
+                chipView.setTextColor(chipBuilder.textColor);
+                chipView.setBackgroundColor(chipBuilder.backgroundColor);
+            }
+        }
+
+    }
+
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         final int count = getChildCount();

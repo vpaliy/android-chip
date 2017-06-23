@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="vertical_margin">5dp</dimen>
+    <dimen name="vertical_margin">8dp</dimen>
     <dimen name="horizontal_margin">5dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="bottom_sheet_height">400dp</dimen>
+
+    <dimen name="spacing_medium">8dp</dimen>
+    <dimen name="spacing_big">16dp</dimen>
 </resources>

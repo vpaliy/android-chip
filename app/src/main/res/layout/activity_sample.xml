@@ -38,6 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        app:srcCompat="@drawable/ic_edit_black_24dp"
         app:fabSize="normal"
         android:layout_alignRight="@+id/chips"
         android:layout_alignEnd="@+id/chips"
