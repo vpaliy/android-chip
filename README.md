@@ -22,6 +22,47 @@ Check out all properties you can set to the `ChipView` as well as `ChipsLayout` 
 ### Note! ### 
 If you are going to use the `CbipsLayout` view, you may find yourself in a situation where the chips have completely occupied the screen, so in this case you will not be able to scroll your layout. The solution is to wrap the `ChipsLayout` up into a `ScrollView` or `NestedScrollView` (if you're using a `CoordinatorLayout`). 
 
+Check out these XML examples:
+
+```XML
+   <com.vpaliy.chips_lover.ChipsLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:id="@+id/chips"
+	app:chipCloseable="true"
+	app:chipSelectable="true"
+        app:chip_backgroundColor="#bbdefb"
+	app:chip_selectedBackgroundColor="#424242"
+        app:chipTextStyle="@style/Widget.HashTag"
+        app:chipTextColor="@color/blue_grey_700"
+        app:chipDefaultAnimation="true"
+        app:chipFrontIcon="@drawable/image"
+        app:chip_layout_horizontal_margin="10dp"
+        app:chip_layout_vertical_margin="10dp">
+</com.vpaliy.chips_lover.ChipsLayout>
+```
+
+Another one:
+
+```XML
+<com.vpaliy.chips_lover.ChipView
+        android:id="@+id/chip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:chip_text="Chip text"
+	app:chipCloseable="true"
+	app:chipSelectable="true"
+        app:chip_backgroundColor="#bbdefb"
+	app:chipTextColor="@color/blue_grey_700"
+	app:chipDefaultAnimation="false"
+	app:chip_selectedBackgroundColor="#424242"
+        app:chipTextStyle="@style/Widget.HashTag"
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="8dp">
+</com.vpaliy.chips_lover.ChipView>
+```
+
 ## How to download? ##
 
 ### Step 1 ###  
