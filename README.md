@@ -1,4 +1,7 @@
 # ChipsLover
+
+[![](https://jitpack.io/v/vpaliyX/ChipsLover.svg)](https://jitpack.io/#vpaliyX/ChipsLover)
+
 This repository provides an implementation of a material chip. Chips represent complex entities in small blocks, such as a contact. Also it could be used to represent a category or a  simple tag.
 
 I followed the guidelines from the [Material Design](https://material.io/guidelines/components/chips.html#) website during the implementation of this library.
@@ -11,6 +14,32 @@ Take a glance at the demo:
 Also I've created the customization sheet in the sample, so go ahead and download the sample, and you'll get a chance to poke around in the library a little bit:
 
 ![](https://github.com/vpaliyX/ChipsLover/blob/master/art/ezgif.com-video-to-gif(9).gif)
+
+## How to download? ##
+
+### Step 1 ###  
+
+Add it in your root build.gradle at the end of repositories:
+
+``` gradle
+allprojects {
+  repositories {
+     maven { url 'https://jitpack.io' }
+  }
+}
+  
+```
+### Step 2 ###
+
+Add the dependency
+
+``` gradle
+dependencies {
+	compile 'com.github.vpaliyX:ChipsLover:v1.0'
+}
+
+```
+You're good to go!
 
 
 ``````
