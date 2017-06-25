@@ -17,11 +17,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 public class ChipView extends RelativeLayout{
+
+    private static final float SCALE_BY=1.03F;
 
     private TextView chipTextView;
     private CircleImageView frontIcon;
@@ -29,11 +30,12 @@ public class ChipView extends RelativeLayout{
     private String text;
     private Drawable endIconDrawable;
     private Drawable frontIconDrawable;
-    private int frontIconColor;
-    private int endIconColor;
     private boolean selectable;
     private boolean closeable;
     private boolean isPressAnimation;
+    private boolean isSelected;
+    private int frontIconColor;
+    private int endIconColor;
     private int textStyle;
     private int elevation;
     private int backgroundColor;
@@ -42,7 +44,6 @@ public class ChipView extends RelativeLayout{
     private int selectedTextColor;
     private int selectedEndColor;
     private int selectedFrontColor;
-    private boolean isSelected;
 
     private OnChipChangeListener chipChangeListener;
     private OnFrontIconEventClick frontIconClickEvent;
@@ -131,8 +132,8 @@ public class ChipView extends RelativeLayout{
             setTextColor();
             if(isPressAnimation) {
                 ViewCompat.animate(this)
-                        .scaleX(isSelected ? 1.05f : 1f)
-                        .scaleY(isSelected ? 1.05f : 1f)
+                        .scaleX(isSelected?SCALE_BY: 1)
+                        .scaleY(isSelected?SCALE_BY: 1)
                         .setDuration(getResources().getInteger(R.integer.default_anim_duration))
                         .setListener(new ViewPropertyAnimatorListenerAdapter(){
                             @Override
