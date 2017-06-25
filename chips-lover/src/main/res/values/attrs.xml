@@ -3,6 +3,7 @@
 
     <declare-styleable name="ChipView">
         <attr name="chip_text" format="string" />
+        <attr name="chip_elevation" format="dimension"/>
         <attr name="chipCloseable" format="boolean"/>
         <attr name="chipSelectable" format="boolean" />
         <attr name="chipFrontIconColor" format="color"/>
@@ -23,6 +24,7 @@
     <declare-styleable name="ChipsLayout">
         <attr name="chip_text" />
         <attr name="chipCloseable"/>
+        <attr name="chip_elevation"/>
         <attr name="chipSelectable"/>
         <attr name="chipFrontIconColor"/>
         <attr name="chipEndIconColor" />

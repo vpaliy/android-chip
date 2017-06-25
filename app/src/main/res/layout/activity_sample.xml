@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:id="@+id/chips"
+        app:chip_elevation="4dp"
         app:chipCloseable="true"
         app:chipSelectable="true"
         app:chip_backgroundColor="#bbdefb"

@@ -18,6 +18,7 @@ public class ChipBuilder {
     int textStyle=-1;
     int backgroundColor;
     int textColor;
+    int elevation;
     int selectedBackgroundColor;
     int selectedTextColor;
     int selectedEndColor;
@@ -38,6 +39,7 @@ public class ChipBuilder {
             closeable=array.getBoolean(R.styleable.ChipView_chipCloseable,false);
             selectedFrontColor=array.getColor(R.styleable.ChipView_chip_selectedFrontColor,selectedFrontColor);
             selectable=array.getBoolean(R.styleable.ChipView_chipSelectable,false);
+            elevation=(int)array.getDimension(R.styleable.ChipView_chip_elevation,0);
             selectedBackgroundColor=array.getColor(R.styleable.ChipView_chip_selectedBackgroundColor,selectedBackgroundColor);
             selectedTextColor=array.getColor(R.styleable.ChipView_chip_selectedTextColor, selectedTextColor);
             int icon=array.getResourceId(R.styleable.ChipView_chipFrontIcon,-1);

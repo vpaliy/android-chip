@@ -3,7 +3,6 @@ package com.vpaliy.chips_lover;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
-import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.transition.Transition;
 import android.transition.TransitionInflater;

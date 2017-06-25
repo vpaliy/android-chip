@@ -35,6 +35,7 @@ public class ChipView extends RelativeLayout{
     private boolean closeable;
     private boolean isPressAnimation;
     private int textStyle;
+    private int elevation;
     private int backgroundColor;
     private int textColor;
     private int selectedBackgroundColor;
@@ -77,6 +78,7 @@ public class ChipView extends RelativeLayout{
         text=builder.text;
         endIconDrawable=builder.endIconDrawable;
         frontIconDrawable=builder.frontIconDrawable;
+        elevation=builder.elevation;
         frontIconColor=builder.frontIconColor;
         endIconColor=builder.endIconColor;
         selectable=builder.selectable;
@@ -101,6 +103,9 @@ public class ChipView extends RelativeLayout{
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         getLayoutParams().height=dimens(R.dimen.chip_height);
         getLayoutParams().width=WRAP_CONTENT;
+        if(elevation>0){
+            ViewCompat.setElevation(this,elevation);
+        }
     }
 
     private void setUp(){
