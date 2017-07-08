@@ -4,6 +4,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.vpaliy.chips_lover.ChipBuilder;
 import com.vpaliy.chips_lover.ChipsLayout;
@@ -21,6 +22,9 @@ public class SampleActivity extends AppCompatActivity
     @BindView(R.id.fab)
     protected FloatingActionButton fab;
 
+    @BindView(R.id.root)
+    protected ViewGroup root;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,8 +35,7 @@ public class SampleActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BottomSheet.newInstance().setUpdateListener(SampleActivity.this)
-                        .show(getSupportFragmentManager(),null);
+
             }
         });
     }

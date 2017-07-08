@@ -83,7 +83,7 @@ public class ChipsLayout extends ViewGroup
         return p instanceof LayoutParams;
     }
 
-    public void updateColorWith(ChipBuilder chipBuilder) {
+    public void updateChipColors(ChipBuilder chipBuilder) {
         this.chipBuilder = chipBuilder;
         if(chips!=null){
             for(ChipView chipView:chips){
@@ -97,7 +97,10 @@ public class ChipsLayout extends ViewGroup
                 chipView.setBackgroundColor(chipBuilder.backgroundColor);
             }
         }
+    }
 
+    public ChipBuilder getChipBuilder() {
+        return chipBuilder;
     }
 
     @Override
