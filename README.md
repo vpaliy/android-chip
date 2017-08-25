@@ -83,7 +83,7 @@ Add the dependency
 
 ``` gradle
 dependencies {
-	compile 'com.github.vpaliyX:ChipsLover:v1.1'
+	compile 'com.github.vpaliyX:ChipsLover:v1.2'
 }
 
 ```
