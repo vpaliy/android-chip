@@ -8,6 +8,7 @@ import android.transition.Transition;
 import android.transition.TransitionInflater;
 import android.transition.TransitionManager;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ public class ChipsLayout extends ViewGroup
     private ChipBuilder chipBuilder;
     private boolean deleteAnimationEnabled;
     private int removeAnimationRes;
+    private boolean removeChipTouch;
     public ChipsLayout(Context context){
         this(context,null,0);
     }
@@ -45,6 +47,7 @@ public class ChipsLayout extends ViewGroup
             verticalSpacing=(int)(array.getDimension(R.styleable.ChipsLayout_chip_layout_vertical_margin,1));
             deleteAnimationEnabled=array.getBoolean(R.styleable.ChipsLayout_remove_anim_enabled,true);
             removeAnimationRes=array.getInteger(R.styleable.ChipsLayout_remove_anim,-1);
+            removeChipTouch=array.getBoolean(R.styleable.ChipsLayout_remove_chips_touch,false);
             int arrayRes=array.getResourceId(R.styleable.ChipsLayout_chips_array,-1);
             if(arrayRes!=-1){
                 String[] textArray=getResources().getStringArray(arrayRes);
@@ -219,6 +222,14 @@ public class ChipsLayout extends ViewGroup
             int diff=tags.size()-chips.size();
             for(int index=0;index<diff;index++) {
                 ChipView chip = chipBuilder.build();
+                if(removeChipTouch) {
+                    chip.setOnTouchListener(new OnTouchListener() {
+                        @Override
+                        public boolean onTouch(View v, MotionEvent event) {
+                            return false;
+                        }
+                    });
+                }
                 chip.setChipChangeListener(this);
                 chips.add(chip);
                 addView(chip);

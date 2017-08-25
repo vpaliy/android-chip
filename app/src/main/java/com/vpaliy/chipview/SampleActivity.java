@@ -32,16 +32,10 @@ public class SampleActivity extends AppCompatActivity
         ButterKnife.bind(this);
         chipsLayout.setTags(Arrays.asList("Ch.Dickson","E.Farmer","M.Phil","J. White","L. Frazier","Iliana Ho",
                 "Hugo Horne","Cesar Quinn","Seth Pugh","Valentina Green","Ayla Carney","Kyleigh Steele"));
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
     }
 
     @Override
     public void onUpdate(ChipBuilder builder) {
-        chipsLayout.updateColorWith(builder);
+        chipsLayout.updateChipColors(builder);
     }
 }

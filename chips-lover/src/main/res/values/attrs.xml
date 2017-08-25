@@ -40,6 +40,7 @@
         <attr name="chipDefaultAnimation"/>
 
         <attr name="remove_anim_enabled" format="boolean"/>
+        <attr name="remove_chips_touch" format="boolean"/>
         <attr name="chips_array" format="reference"/>
         <attr name="remove_anim" format="reference"/>
         <attr name="chip_layout_horizontal_margin" format="dimension"/>
