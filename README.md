@@ -20,7 +20,7 @@ Also I've created the customization sheet in the sample, so go ahead and downloa
 Check out all properties you can set to the `ChipView` as well as `ChipsLayout` [here](https://github.com/vpaliyX/ChipsLover/blob/master/chips-lover/src/main/res/values/attrs.xml). They should be intuitive, well, at least I tried to make them so; if it's not the case then I failed miserably. 
 
 ### Note! ### 
-If you are going to use the `CbipsLayout` view, you may find yourself in a situation where the chips have completely occupied the screen, so in this case you will not be able to scroll your layout. The solution is to wrap the `ChipsLayout` up into a `ScrollView` or `NestedScrollView` (if you're using a `CoordinatorLayout`). 
+If you are going to use the `ChipsLayout` view, you may find yourself in a situation where the chips have completely occupied the screen, so in this case you will not be able to scroll your layout. The solution is to wrap the `ChipsLayout` up into a `ScrollView` or `NestedScrollView` (if you're using a `CoordinatorLayout`). 
 
 Check out these XML examples:
 
