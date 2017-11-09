@@ -433,7 +433,7 @@ public class ChipView extends RelativeLayout{
     }
 
 
-    interface OnChipChangeListener{
+    public interface OnChipChangeListener{
         void onScaleChanged(ChipView chipView);
         void onRemove(ChipView chipView);
     }
